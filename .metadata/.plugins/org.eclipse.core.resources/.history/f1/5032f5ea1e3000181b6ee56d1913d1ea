@@ -1,0 +1,21 @@
+/**
+ * 
+ */
+package etc;
+
+/**
+ * @author ginTonic
+ * @Title 톱니바퀴
+ * 2018. 3. 25.
+ */
+public class No14891 {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

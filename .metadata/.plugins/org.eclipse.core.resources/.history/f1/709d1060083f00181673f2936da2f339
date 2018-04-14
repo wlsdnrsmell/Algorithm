@@ -1,0 +1,87 @@
+/**
+ * 
+ */
+package etc;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+/**
+ * @author ginTonic
+ * @Title 
+ * 2018. 4. 13.
+ */
+public class No2602 {
+
+	/**
+	 * @param args
+	 * @throws IOException 
+	 */
+	static String[] str;
+	static String[] arrDevil;
+	static String[] arrAngel;
+	static int n;
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String ansString = br.readLine();
+		StringTokenizer st = new StringTokenizer(ansString,"");
+		int ansN = ansString.length();
+		str = new String[ansString.length()];
+		int idx = 0;
+		while(st.hasMoreTokens())
+			str[idx++] = st.nextToken();
+		
+		String devil = br.readLine();
+		n = devil.length();
+		arrDevil = new String[n];
+		st = new StringTokenizer(devil,'');
+		idx = 0;
+		while(st.hasMoreTokens())
+			arrDevil[idx++] = st.nextToken();
+		String angel = br.readLine();
+		arrAngel = new String[n];
+		st = new StringTokenizer(angel,"");
+		idx = 0;
+		while(st.hasMoreTokens())
+			arrAngel[idx++] = st.nextToken();
+		
+		int[][] d= new int[n][n];
+		int ans = 0;
+		d[0][0] = 1;
+		System.out.println(arrDevil[0]);
+		System.out.println(str[0]);
+		if(arrDevil[0]==str[0]) {
+			d[0][1] = 1;
+			ans += sol(d, n, ansN, 1);
+		}
+		if(arrAngel[0]==str[0]){
+			d[0][2] = 1;
+			ans += sol(d, n, ansN, 2);
+		}
+		System.out.println(n);
+		
+		System.out.println(ans);
+		
+	}
+	//flag = 1 직전에 악마다리
+	//flag = 2 직전에 천사다리
+	private static int sol(int[][] d, int i, int idx, int flag) {
+		System.out.println("i : "+i + " idx : "+idx);
+		if(flag==2) {
+			if(arrDevil[i]==str[idx])
+				d[i][1] = sol(d, i-1, idx-1, 1);
+			else
+				d[i][0] = d[i-1][2];	
+		} else {
+			if(arrAngel[i]==str[idx])
+				d[i][2] = sol(d, i-1, idx-1, 2);
+			else
+				d[i][0] = d[i-1][1];
+		}
+		if(idx==0) return 1;
+		return d[i][1] + d[i][2] + d[i][0];
+	}
+
+}

@@ -1,0 +1,52 @@
+/**
+ * 
+ */
+package swExpertAcademy;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+/**
+ * @author ginTonic
+ * @Title 
+ * 2018. 4. 11.
+ */
+public class No2112 {
+
+	/**
+	 * @param args
+	 * @throws IOException 
+	 * @throws NumberFormatException 
+	 */
+	static int map[][];
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int T = Integer.valueOf(br.readLine());
+		while(T-->0) {
+			String[] dwk = br.readLine().split(" ");
+			int d = Integer.valueOf(dwk[0]);
+			int w = Integer.valueOf(dwk[1]);
+			int k = Integer.valueOf(dwk[2]);
+			map = new int[d][w];
+			for(int i=0; i<d; i++) {
+				String[] line = br.readLine().split(" ");
+				for(int j=0; j<w; j++) {
+					map[i][j] = Integer.valueOf(line[j]);
+				}
+			}
+			
+			
+		}
+	}
+	//성능통과유무함수
+	private static boolean check(int d, int k) {
+		int cnt = 0;
+		boolean cntinue;
+		for(int i=0; i<d; i++) {
+			
+		}
+		return true;
+	}
+
+}

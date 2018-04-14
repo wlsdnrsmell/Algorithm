@@ -1,0 +1,36 @@
+/**
+ * 
+ */
+package bfs;
+
+import java.awt.List;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+
+/**
+ * @author jinwook.im
+ * @Titile 물통
+ * 2018. 3. 12.
+ */
+public class No2251 {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int bA = sc.nextInt(), bB = sc.nextInt(), bC = sc.nextInt();
+		LinkedList<Integer> d = new LinkedList<Integer>();
+		
+		final int b[] = new int[]{bA,bB,bC};
+		int fillB[] = new int[3];
+
+		//물통에 현재 차있는 물 부피
+		fillB[0]=0;fillB[1]=0;fillB[2]=bC;
+		
+		Queue<Integer> q = new ArrayList<Integer>();
+	}
+
+}

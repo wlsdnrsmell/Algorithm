@@ -1,0 +1,135 @@
+/**
+ * 
+ */
+package swExpertAcademy;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.StringTokenizer;
+
+/**
+ * @author ginTonic
+ * @Title 
+ * 2018. 4. 11.
+ */
+public class No2112 {
+
+	/**
+	 * @param args
+	 * @throws IOException 
+	 * @throws NumberFormatException 
+	 */
+	static int d;
+	static int w;
+	static int k;
+	static int ans ;
+	private static StringTokenizer st = null;
+    private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    private static StringTokenizer getStringTokenizer() throws IOException {
+        return new StringTokenizer(br.readLine(), " ");
+    }
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		int T = Integer.valueOf(br.readLine().trim());
+		for(int t=1; t<=T; t++) {
+			ans = Integer.MAX_VALUE;
+			st = getStringTokenizer();
+			d = Integer.valueOf(st.nextToken());
+			w = Integer.valueOf(st.nextToken());
+			k = Integer.valueOf(st.nextToken());
+			
+			int[][] map = new int[d][w];
+			
+			for(int i=0; i<d; i++) {
+				st = getStringTokenizer();
+				for(int j=0; j<w; j++) {
+					map[i][j] = Integer.valueOf(st.nextToken());
+				}
+			}
+			
+			
+			if(check(map)) {
+				bw.write("#"+t+" "+0+"\n");
+				bw.flush();
+			} else {
+				for(int i=0; i<d; i++) {
+					solve(map, 0, i, 1);
+					solve(map, 1, i, 1);
+				}
+				
+				bw.write("#"+t+" "+ans+"\n");
+				bw.flush();
+			}
+			/*solve(map, 0, 0);
+			solve(change(map, 0, 0), 0, 1);
+			solve(change(map, 0, 1), 0, 1);*/
+		}
+		br.close();
+		bw.close();
+	}
+	private static void solve(int[][] map, int type, int row, int cnt) {
+		if(ans<=cnt) return;
+		//if(row>=k) return;
+		int[][] temp = copy(map);
+		
+		change(temp, row, type);
+		
+		if(check(temp)) {
+			ans = cnt;
+			return;
+		}
+		
+		for(int i=row+1; i<d; i++) {
+			solve(temp, 0, i, cnt+1);
+			solve(temp, 1, i, cnt+1);
+		}
+		
+		/*if(row<d) {
+			solve(copy(temp), row+1, cnt);
+			solve(change(temp, row, 0), row+1, cnt+1);
+			solve(change(temp, row, 1), row+1, cnt+1);
+		}*/
+	}
+	private static int[][] copy(int[][] map) {
+		int[][] tempMap = new int[d][w];
+		
+		for(int i=0; i<d; i++) {
+			for(int j=0; j<w; j++) {
+				tempMap[i][j] = map[i][j];
+			}
+		}
+		return tempMap;
+	}
+	//약품사용
+	private static int[][] change(int[][] map, int row, int type) {
+		for(int i=0; i<w; i++) {
+			map[row][i] = type;
+		}
+		return map;
+	}
+	//성능통과유무함수
+	private static boolean check(int[][]map) {
+		for(int i=0; i<w; i++) {
+			int cnt = 1;
+			boolean flag = false;
+			for(int j=0; j<d-1; j++) {
+				int now = map[j][i];
+				if(now==map[j+1][i]) {
+					cnt++;
+				} else {
+					cnt = 1;
+				}
+				if(cnt==k) {
+					flag = true;
+					break;
+				}
+			}
+			if(!flag) return false;
+		}
+		return true;
+		
+	}
+}

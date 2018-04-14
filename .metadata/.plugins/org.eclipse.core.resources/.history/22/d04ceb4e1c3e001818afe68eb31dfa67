@@ -1,0 +1,71 @@
+/**
+ * 
+ */
+package swExpertAcademy;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+
+/**
+ * @author ginTonic
+ * @Title 
+ * 2018. 4. 12.
+ */
+public class No4008 {
+
+	/**
+	 * @param args
+	 * @throws IOException 
+	 * @throws NumberFormatException 
+	 */
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int T;
+		T=Integer.valueOf(br.readLine().trim());
+		for(int test_case = 1; test_case <= T; test_case++)
+		{
+			int n = Integer.valueOf(br.readLine().trim());
+			String[] o = br.readLine().split(" ");
+			int[] oper = new int[n-1];
+			for(int i=0; i<n-1; i++) {
+				for(int j=0; j<Integer.valueOf(o[i]); j++) {
+					if(i==0) oper[j] = 0;
+					else if(i==1) oper[Integer.valueOf(o[0])+j] = 1;
+					else if(i==2) oper[Integer.valueOf(o[1])+j] = 2;
+					else if(i==3) oper[Integer.valueOf(o[2])+j] = 3;
+				}
+			}
+			String[] nums = br.readLine().split(" ");
+			int[] num = new int[n];
+			for(int i=0; i<n; i++) {
+				num[i] = Integer.valueOf(nums[i]);
+			}
+			long max = Integer.MIN_VALUE;
+			long min = Integer.MAX_VALUE;
+			do {
+				long calc = num[0];
+				for(int i=1; i<n; i++) {
+					if(oper[i-1]==0) calc+=num[i];
+				}
+			}while(next_permutation(oper));
+ 		}
+	}
+	private static boolean next_permutation(int[] a) {
+		int n = a.length;
+		int i = n-1;
+		int j = n - 1 ;
+		int tmp = 0;
+		while(i>0 && a[i]<=a[i-1]) i--;
+		if(i<=0) return false;
+		while(a[j]<=a[j-1])j--;
+		tmp = a[i-1];
+		a[i-1] = a[j];
+		a[j] = tmp;
+		Arrays.sort(a, i, n-1);
+		
+		return true;
+	}
+
+}

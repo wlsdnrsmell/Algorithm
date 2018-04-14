@@ -1,0 +1,29 @@
+/**
+ * 
+ */
+package bfs;
+
+import java.util.Scanner;
+
+/**
+ * @author jinwook.im
+ * @Titile 물통
+ * 2018. 3. 12.
+ */
+public class No2251 {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int bA = sc.nextInt(), bB = sc.nextInt(), bC = sc.nextInt();
+		
+		int b[] = new int[3];
+		int fillB[] = new int[3];
+		
+		b[0]= bA;b[1]=bB;b[2]=bC;
+		fillB[0]=0;fillB[1]=0;fillB[2]=bC;
+	}
+
+}

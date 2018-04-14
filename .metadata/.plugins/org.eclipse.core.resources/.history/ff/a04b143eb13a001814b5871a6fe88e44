@@ -1,0 +1,21 @@
+/**
+ * 
+ */
+package etc;
+
+/**
+ * @author ginTonic
+ * @Title 클리보드
+ * 2018. 4. 8.
+ */
+public class No11058 {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

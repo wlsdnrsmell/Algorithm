@@ -1,0 +1,20 @@
+/**
+ * 
+ */
+package bfs;
+
+/**
+ * @author jinwook.im
+ * @Titile 물통
+ * 2018. 3. 12.
+ */
+public class No2251 {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+
+	}
+
+}

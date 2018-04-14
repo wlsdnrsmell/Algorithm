@@ -1,0 +1,21 @@
+/**
+ * 
+ */
+package bfs;
+
+/**
+ * @author jinwook.im
+ *
+ * 2018. 3. 12.
+ */
+public class No2251 {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

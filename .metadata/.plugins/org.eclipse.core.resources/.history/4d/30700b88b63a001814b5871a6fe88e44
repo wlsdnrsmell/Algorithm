@@ -1,0 +1,32 @@
+/**
+ * 
+ */
+package etc;
+
+import java.util.Scanner;
+
+/**
+ * @author ginTonic
+ * @Title 클리보드
+ * 2018. 4. 8.
+ */
+public class No11058 {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+		int[] d= new int[n + 1];
+		d[0] = 1; //d[2]=2; d[3]=3;
+		for(int i=1;i<=n-1; i++) {
+			int temp = d[i-1] + 1;
+			if(temp < d[n-i-1] * (i+1)) {
+				temp = d[n-i-1] * (i+1);
+			}
+			d[i] = temp;
+		}
+		System.out.println(d[n-1]);
+	}
+}

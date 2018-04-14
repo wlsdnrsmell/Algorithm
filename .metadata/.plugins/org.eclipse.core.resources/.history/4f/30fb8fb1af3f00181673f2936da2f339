@@ -1,0 +1,161 @@
+/**
+ * 
+ */
+package swExpertAcademy;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.PriorityQueue;
+import java.util.Queue;
+
+/**
+ * @author ginTonic
+ * @Title 차량정비소
+ * 2018. 4. 13.
+ */
+public class No2477 {
+	/**
+	 * @param args
+	 * @throws IOException 
+	 * @throws NumberFormatException 
+	 */
+	//접수창구와 정비창구 개수의 최대크기
+	static final int MAXS = 9; 
+	//고객 숫자의 최댓값
+	static final int MAXK = 1000;
+	//접수 창구에서의 고장 접수에 걸리는 시간 배열
+	static int[] a = new int[MAXS + 1];
+	//정비 창구에서의 차량 정비에 걸리는 시간 배열
+	static int[] b = new int[MAXS + 1];
+	//현재 접수 창구 이용 고객 정보
+	static Cust[] rec = new Cust[MAXS + 1];
+	//현재 정비 창구 이용 고객 정보
+	static Cust[] rep = new Cust[MAXS + 1];
+	//접수 창구 대기 큐
+	static Cust[] recq = new Cust[MAXK];
+	//정비 창구 대기 큐
+	static Repair[] repq = new Repair[MAXK];
+	//접수 창구 대기 큐의 추출 인덱스
+	static int crp;
+	//정비 창구 대기 큐의 삽입, 추출 인덱스
+	static int pwp, prp;
+	
+	static int N ;
+	static int M ;
+	static int K ;
+	static int A ;
+	static int B ;
+	
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int T = Integer.valueOf(br.readLine());
+		//인스턴스화
+		for(int i=0; i<=MAXS; ++i) {
+			rec[i] = new Cust();
+			rep[i] = new Cust();
+		}
+		for(int i=0; i<MAXK; ++i) {
+			recq[i] = new Cust();
+			repq[i] = new Repair();
+		}
+		for(int tc=0; tc<T; tc++) {
+			String[] option = br.readLine().split(" ");
+			N = Integer.valueOf(option[0]); //접수창구
+			M = Integer.valueOf(option[1]); //정비창구
+			K = Integer.valueOf(option[2]); //고객수
+			A = Integer.valueOf(option[3]); //고객이 사용한 접수창구
+			B = Integer.valueOf(option[4]); //고객이 사용한 정비창구
+			
+			//접수창구 처리시간
+			String[] ai = br.readLine().split(" ");
+			for(int i=1; i<=N; i++) {
+				a[i] = Integer.valueOf(ai[i-1]);
+			}
+			//정비창구 처리시간
+			String[] bi = br.readLine().split(" ");
+			for(int i=1; i<=M; i++) {
+				b[i] = Integer.valueOf(bi[i-1]);
+			}
+			//고객도착시간
+			String[] ti = br.readLine().split(" ");
+			
+			for(int i=1; i<=K; i++) {
+				recq[i].t = Integer.valueOf(ti[i-1]);
+				recq[i].k = i;
+			}
+		}
+	}
+	
+	static int solve() {
+		//고객번호의 합을 누적할 변수
+		int ans = 0;
+		//대기 큐 추출 / 삽입 인덱스 초기화
+		crp = 0;
+		pwp = 0;
+		prp = 0;
+		
+		//접수 창구 대기 순설르 정렬한다. 정렬한 순서대로 접수 창구가 빌 때 마다 이용한다.
+		Sol sol = new Sol();
+		Arrays.sort(recq, sol);
+		
+		//cnt : 현재까지 처리된 고객 수, 모든 고객을 처리할 때까지 시간이 계속 흐른다.
+		//time : 시간 변수, 가장 먼저 고객이 도착한 시점부터 시작하여 1씩 증가한다.
+		// 시간이 1단위씩 흐를 때마다 접수 창구를 순서대로 처리하고 정비 창구를 순서대로 처리
+		for(int cnt = 1, time = recq[0].t; cnt<=K; ++time) {
+			//접수 창구를 낮은 번호부터 순차적으로 처리하는 반복문
+			//빈 창구가 여러 곳인 경우 접수 창구 번호가 작은 곳부터 배정 할 수 있다.
+			for(int i=1; i<= N; ++i) {
+				//접수 창구의 처리 시간이 남은 경우 남은 처리 시간을 1단위 줄여준다.
+				if(rec[i].t > 0) {
+					//처리 시간이 0이 되면 접수 창구에서 처리가 완료되고 정비 창구로 이동
+					if(--rec[i].t==0) {
+						repq[pwp++].set(i, _rec[i].k, _time);
+					}
+				}
+			}
+		}
+		
+		return ans;
+	}
+}
+class Sol implements Comparator<Cust> {
+
+	/* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	@Override
+	public int compare(Cust o1, Cust o2) {
+		if(o1.t < o2.t) {
+			return -1;
+		} else if(o1.t == o2.t) {
+			if(o1.k < o2.k) {
+				return -1;
+			}
+		}
+		return 1;
+	}
+}
+class Repair {
+	void set(int _idx, int _k, int _t) {
+		idx = _idx;
+		k = _k;
+		t = _t;
+	}
+	int idx; //고객이 이용한 접수 창구 번호
+	int k;   //고객 번호
+	int t;   //큐에 삽입된 시간
+	
+}
+class Cust {
+	int k; // 고객번호
+	int t; //처리시간
+	
+	void set(int _k, int _t) {
+		k = _k;
+		t = _t;
+	}
+}

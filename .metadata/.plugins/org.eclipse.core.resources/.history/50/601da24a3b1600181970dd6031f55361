@@ -1,0 +1,11 @@
+package bitMast;
+
+import java.util.ArrayList;
+
+public class No11723 {
+
+	public static void main(String[] args) {
+		ArrayList S = new ArrayList();
+	}
+
+}

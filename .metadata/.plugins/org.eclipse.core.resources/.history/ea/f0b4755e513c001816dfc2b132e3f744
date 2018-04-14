@@ -1,0 +1,90 @@
+/**
+ * 
+ */
+package etc;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+/**
+ * @author ginTonic
+ * @Title 
+ * 2018. 4. 10.
+ */
+public class No14889 {
+
+	/**
+	 * @param args
+	 * @throws IOException 
+	 * @throws NumberFormatException 
+	 */
+	static int[] k;
+	static int n;
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		n = Integer.valueOf(br.readLine());
+		int[][] a = new int[n+1][n+1];
+		boolean[][] m = new boolean[n+1][n+1];
+		int[][] d = new int[n+1][n+1];
+
+		for(int i=0; i<n; i++) {
+			String[] line = br.readLine().split(" ");
+			for(int j=0; j<n; j++) {
+				a[i][j] = Integer.valueOf(line[j]);
+			}
+		}
+		int teamMem = n/2;
+		k = new int[n];
+		for(int i=n/2; i<n; i++) {
+			k[i] = 1;
+		}
+		int diff = 0;
+		int team1Sum;
+		int team2Sum;
+		int ans = Integer.MAX_VALUE;
+		do {
+			ArrayList<Integer> team1 = new ArrayList<Integer>();
+			ArrayList<Integer> team2 = new ArrayList<Integer>();
+			team1Sum = 0; team2Sum=0;
+			for(int i=0; i<n; i++) {
+				if(k[i]==0) team1.add(i);
+				else team2.add(i);
+			}
+			
+			for(int i=0; i<team1.size()-1; i++) {
+				for(int j=i+1; j<team1.size();j++) {
+					System.out.println(team1.get(i)+" "+ team1.get(j));
+					team1Sum += a[team1.get(i)][team1.get(j)];// + a[team1.get(j)][team1.get(i)];
+				}
+			}
+			for(int i=0; i<team2.size()-1; i++) {
+				for(int j=i+1; j<team2.size();j++) {
+					System.out.println(team2.get(i)+" "+ team2.get(j));
+					team2Sum += a[team2.get(i)][team2.get(j)];// + a[team2.get(j)][team2.get(i)];
+				}
+			}
+			diff = team1Sum<team2Sum? team2Sum - team1Sum : team1Sum- team2Sum;
+			if(ans>diff) ans = diff;
+			//System.out.println(team1Sum +" "+team2Sum);
+		} while(next_permutation(k));
+		System.out.println(ans);
+	}
+	private static boolean next_permutation(int[] arr) {
+		int i = n-1;
+		int j = n-1;
+		int temp = 0;
+		while(i>0 && arr[i]<=arr[i-1]) i--;
+		if(i<=0) return false;
+		while(arr[j]<=arr[i-1])j--;
+		temp = arr[i-1];
+		arr[i-1] = arr[j];
+		arr[j] = temp;
+		Arrays.sort(arr, i, n-1);
+		
+		return true;
+	}
+
+}

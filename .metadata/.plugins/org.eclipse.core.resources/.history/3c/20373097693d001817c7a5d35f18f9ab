@@ -1,0 +1,113 @@
+/**
+ * 
+ */
+package swExpertAcademy;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+/**
+ * @author ginTonic
+ * @Title 
+ * 2018. 4. 11.
+ */
+public class No2112 {
+
+	/**
+	 * @param args
+	 * @throws IOException 
+	 * @throws NumberFormatException 
+	 */
+	static int d;
+	static int w;
+	static int k;
+	static int ans ;
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int T = Integer.valueOf(br.readLine().trim());
+		for(int t=1; t<=T; t++) {
+			ans = 100000;
+			String[] dwk = br.readLine().split(" ");
+			d = Integer.valueOf(dwk[0]);
+			w = Integer.valueOf(dwk[1]);
+			k = Integer.valueOf(dwk[2]);
+			int[][] map = new int[d][w];
+			
+			for(int i=0; i<d; i++) {
+				String[] line = br.readLine().split(" ");
+				for(int j=0; j<w; j++) {
+					map[i][j] = Integer.valueOf(line[j]);
+				}
+			}
+			
+			solve(copy(map), 0, 0);
+			solve(change(copy(map), 0, 0), 0, 1);
+			solve(change(copy(map), 0, 1), 0, 1);
+			System.out.println("#"+t+" "+ans);
+		}
+	}
+	private static void solve(int[][] map, int row, int cnt, int type) {
+		if(ans<=cnt) return;
+		int[][] temp = copy(map);
+		
+		change(temp, row, type);
+		if(check(map)) {
+			ans = cnt;
+			return;
+		}
+		
+		for(int i=row+1; i<d; i++) {
+			solve(i, row+1, cnt+1, 0);
+			
+		}
+		
+		/*if(row<d) {
+			if(!check(map)) {
+				solve(copy(map), row+1, cnt);
+				solve(change(copy(map), row, 0), row+1, cnt+1);
+				solve(change(copy(map), row, 1), row+1, cnt+1);
+			} else {
+				if(ans>cnt) {
+					ans = cnt;
+				}
+				return;
+			}
+		}*/
+	}
+	private static int[][] copy(int[][] map) {
+		int[][] tempMap = new int[d][w];
+		
+		for(int i=0; i<d; i++) {
+			for(int j=0; j<w; j++) {
+				tempMap[i][j] = map[i][j];
+			}
+		}
+		return tempMap;
+	}
+	//약품사용
+	private static int[][] change(int[][] map, int row, int type) {
+		for(int i=0; i<w; i++) {
+			map[row][i] = type;
+		}
+		return map;
+	}
+	//성능통과유무함수
+	private static boolean check(int[][]map) {
+		for(int i=0; i<w; i++) {
+			int cnt = 1;
+			int maxCnt = 1;
+			for(int j=0; j<d-1; j++) {
+				int now = map[j][i];
+				if(now==map[j+1][i]) {
+					cnt++;
+				}
+				if(maxCnt<cnt) maxCnt = cnt;
+				if(now!=map[j+1][i])cnt = 1;
+			}
+			if(maxCnt<k) return false;
+		}
+		return true;
+		
+	}
+}

@@ -1,0 +1,90 @@
+/**
+ * 
+ */
+package swExpertAcademy;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+/**
+ * @author ginTonic
+ * @Title 
+ * 2018. 4. 11.
+ */
+public class No2112 {
+
+	/**
+	 * @param args
+	 * @throws IOException 
+	 * @throws NumberFormatException 
+	 */
+	static int map[][];
+	static int d;
+	static int w;
+	static int k;
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int T = Integer.valueOf(br.readLine());
+		while(T-->0) {
+			String[] dwk = br.readLine().split(" ");
+			d = Integer.valueOf(dwk[0]);
+			w = Integer.valueOf(dwk[1]);
+			k = Integer.valueOf(dwk[2]);
+			map = new int[d][w];
+			for(int i=0; i<d; i++) {
+				String[] line = br.readLine().split(" ");
+				for(int j=0; j<w; j++) {
+					map[i][j] = Integer.valueOf(line[j]);
+				}
+			}
+			
+			int a[] = new int[w];
+			for(int i=0; i<w; i++) {
+				a[i] = check(i);
+			}
+			
+			for(int i=0; i<w; i++) {
+				System.out.print(a[i]+" ");
+			}
+		}
+	}
+	//성능통과유무함수
+	private static int check(int col) {
+		int cnt = 1;
+		int maxCnt = 1;
+		for(int i=0; i<d-1; i++) {
+			int now = map[i][col];
+			if(now==map[i+1][col]) {
+				cnt++;
+			} else {
+				if(maxCnt<cnt) {
+					maxCnt = cnt;	
+				}
+				cnt = 1;
+			}
+			if(maxCnt<cnt) maxCnt = cnt;
+		}
+		return maxCnt;
+	}
+	//연속되지않는점찾기
+	private static int findIdx(int col) {
+		int idx=0;
+		int cnt=1;
+		int maxCnt=1;
+		boolean flag;
+		for(int i=0; i<d-1; i++) {
+			int now = map[i][col];
+			if(now==map[i+1][col]) {
+				cnt++;
+			} else {
+				if(maxCnt<cnt) {
+					maxCnt = cnt;	
+				}
+				cnt = 1;
+			}
+			if(maxCnt<cnt) maxCnt = cnt;
+		}
+		return col;
+	}
+}

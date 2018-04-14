@@ -1,0 +1,39 @@
+package bitMast;
+
+import java.util.Scanner;
+
+public class No11723 {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int cnt = sc.nextInt();
+		int[] S = new int[20];
+		for(int i=0;i<cnt;i++){
+			String line = sc.next();
+			switch(line) {
+			case "add" :
+				S[sc.nextInt()] = 1;
+				break;
+			case "remove" :
+				S[sc.nextInt()] = 0;
+				break;
+			case "check":
+				System.out.println(S[sc.nextInt()]);
+				break;
+			case "toogle":
+				S[sc.nextInt()] = ~S[sc.nextInt()];
+				break;
+			case "empty":
+				
+			case "all" :
+				for(int j=0;j<S.length;j++)
+					S[j]= j+1;
+				break;
+			default:
+				System.out.println(line);
+				break;
+				
+			}	
+		}
+	}
+}

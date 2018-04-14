@@ -1,0 +1,33 @@
+/**
+ * 
+ */
+package bfs;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Scanner;
+
+/**
+ * @author jinwook.im
+ * @Titile 물통
+ * 2018. 3. 12.
+ */
+public class No2251 {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int bA = sc.nextInt(), bB = sc.nextInt(), bC = sc.nextInt();
+		Map<String, Integer> m = new HashMap<String, Integer>();
+		boolean[][] check = new boolean[3][3];
+		
+		m.put("x",0);m.put("y", 0); check[0][0]=true;
+		Queue<Map> q = new LinkedList<Map>();
+		q.offer(m);
+	}
+
+}

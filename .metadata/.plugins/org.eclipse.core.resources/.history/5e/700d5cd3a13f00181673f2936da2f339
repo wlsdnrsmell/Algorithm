@@ -1,0 +1,186 @@
+/**
+ * 
+ */
+package swExpertAcademy;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.PriorityQueue;
+import java.util.Queue;
+
+/**
+ * @author ginTonic
+ * @Title 차량정비소
+ * 2018. 4. 13.
+ */
+public class No2477 {
+
+
+	/**
+	 * @param args
+	 * @throws IOException 
+	 * @throws NumberFormatException 
+	 */
+	//접수창구와 정비창구 개수의 최대크기
+	static final int MAXS = 9; 
+	//고객 숫자의 최댓값
+	static final int MAXK = 1000;
+	//접수 창구에서의 고장 접수에 걸리는 시간 배열
+	static int[] a = new int[MAXS + 1];
+	//정비 창구에서의 차량 정비에 걸리는 시간 배열
+	static int[] b = new int[MAXS + 1];
+	//현재 접수 창구 이용 고객 정보
+	static Cust[] rec = new Cust[MAXS + 1];
+	//현재 정비 창구 이용 고객 정보
+	static Cust[] rep = new Cust[MAXS + 1];
+	//접수 창구 대기 큐
+	static Cust[] recq = new Cust[MAXK];
+	//정비 창구 대기 큐
+	static Repair[] repq = new Repair[MAXK];
+	//접수 창구 대기 큐의 추출 인덱스
+	static int crp;
+	//정비 창구 대기 큐의 삽입, 추출 인덱스
+	static int pwp, prp;
+	
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int T = Integer.valueOf(br.readLine());
+		for(int tc=0; tc<T; tc++) {
+			
+			
+			String[] option = br.readLine().split(" ");
+			int N = Integer.valueOf(option[0]); //접수창구
+			int M = Integer.valueOf(option[1]); //정비창구
+			int K = Integer.valueOf(option[2]); //고객수
+			int A = Integer.valueOf(option[3]); //고객이 사용한 접수창구
+			int B = Integer.valueOf(option[4]); //고객이 사용한 정비창구
+			
+			//접수창구 처리시간
+			String[] ai = br.readLine().split(" ");
+			for(int i=1; i<=N; i++) {
+				a[i] = Integer.valueOf(ai[i-1]);
+			}
+			//정비창구 처리시간
+			String[] bi = br.readLine().split(" ");
+			for(int i=1; i<=M; i++) {
+				b[i] = Integer.valueOf(bi[i-1]);
+			}
+			//고객도착시간
+			String[] ti = br.readLine().split(" ");
+			Sol sol = new Sol();
+			Queue<Cust> q1 = new LinkedList<Cust>();
+			Queue<Cust> q2 = new LinkedList<Cust>();
+			Queue<Cust> q3 = new LinkedList<Cust>();
+			
+			for(int i=1; i<=K; i++) {
+				Cust c = new Cust(i, Integer.valueOf(ti[i-1]), 0);
+				q1.offer(c); 
+			}
+			
+			//현재시간
+			int nowT = 0;
+			
+			while(true) {
+				//시작시간이 아니고, 접수, 정비처가 가동중이지 않으며 기다리는 고객이 없을때 마감
+				if(q3.size()==K) {
+					break;
+				}
+				
+				//접수, 정비처가 가동중인지 확인
+				for(int i=1; i<=N; i++) {
+					if(a[i].t>=nowT) {
+						a[i].useYN = true;
+					}
+				}
+				for(int i=1; i<=M; i++) {
+					if(b[i].t>=nowT) {
+						b[i].useYN = true;
+					}
+				}
+				Cust c = q1.poll();
+				//접수창구 배치
+				if(c.t>=nowT) {
+					for(int i=1; i<=N; i++) {
+						if(a[i].useYN) {
+							
+							System.out.println("접수"+c.num);
+							int cstT = c.getT();
+							a[i].useYN = false;
+							a[i].t*=2;
+							c.setN(i);
+							c.setT(cstT+a[i].t);
+							q2.offer(c);
+							break;
+						}
+					}
+				}
+				Cust c2 = q2.poll();
+				if(c2.t>=nowT){
+					//정비창구 배치
+					if(!q2.isEmpty()){
+						for(int i=1; i<=M; i++) {
+							if(b[i].useYN) {
+								
+								System.out.println("정비"+c2.num);
+								c2.setM(i);
+								b[i].useYN = false;
+								b[i].t*=2;
+								q3.offer(c2);
+							}
+						}
+					}
+				}
+				
+				nowT+=1;
+			}
+			int ans = 0;
+			while(!q3.isEmpty()) {
+				Cust c = q3.poll();
+				if(c.N == A && c.M == B) ans+=c.num;
+				System.out.println(c.num);
+				
+			}
+			System.out.println("ans : " + ans);
+		}
+	}
+}
+class Sol implements Comparator<Cust> {
+
+	/* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	@Override
+	public int compare(Cust o1, Cust o2) {
+		if(o1.t < o2.t) {
+			return 1;
+		} else if(o1.t == o2.t) {
+			if(o1.k<o2.k) {
+				return 1;
+			}
+		}
+		return -1;
+	}
+}
+class Repair {
+	void set(int _idx, int _k, int _t) {
+		idx = _idx;
+		k = _k;
+		t = _t;
+	}
+	int idx; //고객이 이용한 접수 창구 번호
+	int k;   //고객 번호
+	int t;   //큐에 삽입된 시간
+	
+}
+class Cust {
+	int k; // 고객번호
+	int t; //처리시간
+	
+	void set(int _k, int _t) {
+		k = _k;
+		t = _t;
+	}
+}

@@ -1,0 +1,23 @@
+package bitMast;
+
+import java.util.Scanner;
+
+public class No11723 {
+
+	public static void main(String[] args) {
+		int[] S = new int[20];
+		for(int i=0; i<S.length; i++)
+			S[i]=0;
+		Scanner sc = new Scanner(System.in.toString());
+		while(true){
+			switch(sc.next()) {
+			case "add" :
+				
+				break;
+			}
+		}
+		
+	}
+	
+
+}

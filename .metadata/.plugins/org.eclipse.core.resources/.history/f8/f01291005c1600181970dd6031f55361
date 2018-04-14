@@ -1,0 +1,30 @@
+package bitMast;
+
+/*
+ * @Author : wookTire
+ * 
+ * @Title : 비트논리연산자
+ */
+public class BitWiseOper {
+
+	public static void main(String[] args) {
+		int x = 0xAB;
+		int y = 0xF;
+		System.out.printf("x = %#X \t%8s%n", x, toBinaryString(x));
+		System.out.printf("y = %#X \t%8s%n", y, toBinaryString(y));
+		
+		//AND연산자
+		System.out.printf("x & y = %#X \t%8s%n", x&y, toBinaryString(x&y));
+		//OR연산자
+		System.out.printf("x | y = %#X \t%8s%n", x|y, toBinaryString(x|y));
+		//XOR연산자
+		System.out.printf("x ^ y = %#X \t%8s%n", x^y, toBinaryString(x^y));
+		System.out.printf("x^y^x = %#X \t%8s%n", x^y^x, toBinaryString(x^y^x));
+	}
+
+	private static String toBinaryString(int x) {
+		String preBinary = "00000000";
+		String tmp = preBinary.concat(Integer.toBinaryString(x));
+		return tmp.substring(tmp.length() - 8);
+	}
+}

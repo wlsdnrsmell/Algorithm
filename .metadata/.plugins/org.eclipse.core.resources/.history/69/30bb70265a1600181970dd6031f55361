@@ -1,0 +1,21 @@
+package bitMast;
+
+/*
+ * @Author : wookTire
+ * 
+ * @Title : 비트논리연산자
+ */
+public class BitWiseOper {
+
+	public static void main(String[] args) {
+		int x = 10;
+		int y = 20;
+		System.out.printf("x = %8s%n", Integer.toBinaryString(x));
+		System.out.printf("y = %8s%n", Integer.toBinaryString(y));
+	}
+
+	@Override
+	static String toBinaryString(int x) {
+		return null;
+	}
+}
